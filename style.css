@@ -1,0 +1,290 @@
+                                    /* HEADER */
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 25px;
+    background: #ffffff;
+    border-bottom: 1px solid #e0e0e0;
+    margin-bottom: 16px; 
+}
+
+/* Logo */
+.header-logo h1 {
+    margin: 0;
+    font-size: 26px;
+    font-weight: 700;
+}
+
+.header-logo a {
+    text-decoration: none;
+    color: #333;
+}
+
+/* Navigation */
+.header-nav {
+    display: flex;
+    gap: 25px;
+}
+
+.header-nav a {
+    text-decoration: none;
+    color: #444;
+    font-weight: 600;
+    transition: color 0.2s ease;
+}
+
+.header-nav a:hover {
+    color: #000;
+}
+
+/* Right side: profile + logout/login */
+.header-auth {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+/* Profile image */
+#profile-img {
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid #ddd;
+    transition: 0.2s ease;
+}
+
+#profile-img:hover {
+    border-color: #aaa;
+    transform: scale(1.05);
+}
+
+/* Auth links */
+#logout-link,
+#login-link {
+    text-decoration: none;
+    color: #000;
+    font-weight: 600;
+    transition: color 0.2s ease;
+}
+
+#logout-link:hover,
+#login-link:hover {
+    color: #353434;
+}
+
+
+
+                                    /* COOKIE BANNER */
+
+/* Startposition: gömd under skärmen */
+#cookie-banner {
+    position: fixed;
+    bottom: -200px;
+    left: 20px;
+    right: 20px;
+    background: #222;
+    color: white;
+    padding: 20px;
+    border-radius: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    z-index: 9999;
+
+    /* Animation */
+    animation: slideUp 0.6s ease-out forwards;
+}
+
+/* Text */
+#cookie-banner p {
+    margin: 0;
+    font-size: 16px;
+}
+
+/* Buttons */
+#cookie-banner button {
+    background: #9ea0a1;
+    border: none;
+    padding: 10px 15px;
+    margin-left: 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    color: white;
+    font-weight: bold;
+    transition: 0.2s;
+}
+
+#cookie-banner button:hover {
+    background: #444748;
+}
+
+/* Animation keyframes */
+@keyframes slideUp {
+    from {
+        bottom: -200px;
+        opacity: 0;
+    }
+
+    to {
+        bottom: 20px;
+        opacity: 1;
+    }
+}
+
+                                    /* INDEX PAGE LAYOUT */
+
+.index-container {
+    max-width: 900px;
+    margin: 40px auto;
+    background-color: #ffffff;
+    padding: 30px;
+    border-radius: 10px;
+    border: 1px solid #e0e0e0;
+}
+
+/* Rubriker */
+.index-container h2,
+.index-container h3 {
+    color: #333333;
+    margin-bottom: 12px;
+}
+
+/* Vanlig text */
+.index-container p {
+    color: #444444;
+    line-height: 1.6;
+    margin-bottom: 12px;
+}
+
+/* Formulär */
+.index-container form {
+    margin-top: 20px;
+}
+
+.index-container label {
+    font-weight: bold;
+    color: #333333;
+}
+
+.index-container input[type="date"] {
+    padding: 10px;
+    border: 1px solid #cccccc;
+    border-radius: 6px;
+    background-color: #f9f9f9;
+    margin-top: 6px;
+}
+
+.index-container input[type="submit"] {
+    padding: 10px 18px;
+    background-color: #444444;
+    color: #ffffff;
+    border: none;
+    border-radius: 6px;
+    font-weight: bold;
+    cursor: pointer;
+    margin-top: 10px;
+    transition: background 0.2s ease;
+}
+
+.index-container input[type="submit"]:hover {
+    background-color: #000000;
+}
+
+/* Countdown */
+#countdown {
+    margin-top: 20px;
+    font-size: 18px;
+    font-weight: bold;
+    color: #333333;
+}
+
+                                    /* PROFILE PAGE */
+
+.profile-container h2,
+.profile-container h3 {
+    color: #333333;
+    margin-bottom: 12px;
+}
+
+.profile_pictures {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 12px;
+}
+
+.profile-container p {
+    color: #444444;
+    line-height: 1.6;
+    margin-bottom: 10px;
+}
+
+/* Upload form */
+.profile-container input[type="file"] {
+    margin-top: 10px;
+}
+
+.profile-container input[type="submit"] {
+    padding: 10px 18px;
+    background-color: #444444;
+    color: #ffffff;
+    border: none;
+    border-radius: 6px;
+    font-weight: bold;
+    cursor: pointer;
+    margin-top: 10px;
+    transition: background 0.2s ease;
+}
+
+.profile-container input[type="submit"]:hover {
+    background-color: #000000;
+}
+
+/* Previous images */
+.profile-img {
+    width: 120px;
+    height: 120px;
+    object-fit: cover;
+    border-radius: 6px;
+    margin: 6px;
+    border: 1px solid #dddddd;
+}
+
+
+                                       /*FOOTER */
+
+footer {
+    margin-top: 40px;
+    padding: 20px;
+    text-align: center;
+    background-color: #ffffff;
+    border-top: 1px solid #e0e0e0;
+    color: #000000;
+    font-size: 17px;
+
+}
+
+                                    /* RESPONSIVE INDEX PAGE */
+
+/* Tablet */
+@media (max-width: 900px) {
+    .index-container {
+        padding: 24px;
+        margin: 30px 16px;
+    }
+}
+
+/* Mobil */
+@media (max-width: 600px) {
+    .index-container {
+        padding: 20px;
+        margin: 20px 12px;
+    }
+
+    .index-container input[type="date"],
+    .index-container input[type="submit"] {
+        width: 100%;
+    }
+}
