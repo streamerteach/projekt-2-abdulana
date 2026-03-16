@@ -1,10 +1,13 @@
 <?php
 session_start();
 
-// Loggar ut användaren genom att rensa sessionen
+// Remove all session variables
+$_SESSION = [];
+
+// Destroy the session
 session_destroy();
 
-// Skickar användaren direkt till startsidan
-header("Location: index.php");
-exit;
+// Redirect to homepage (or login page)
+header("Location: /echo/index.php");
+exit();
 ?>
