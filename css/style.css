@@ -1,0 +1,552 @@
+                    /* LIGHT MODE & DARK MODE */
+/* Light mode variables */
+:root {
+    --bg-color: #f2f2f2;             /* Bakgrund för hela sidan */
+    --container-bg: #fff;            /* Bakgrund för huvud-innehåll */
+    --header-footer-bg: rgb(227, 227, 227);        /* Bakgrund för header och footer */
+    --text-color: #3D3D3D;           /* Textfärg generellt */
+    --link-color: #222c41;           /* Färg på länkar i navigation och footer */
+    --link-hover: #777;               /* Färg på länkar vid hover */
+    --button-bg: #eee;               /* Bakgrund på light mode button */
+    --button-hover: #ddd;             /* Hover effekt på light mode button */
+}
+
+[data-theme="dark"] {
+    --bg-color: #121212;             /* Mörk bakgrund för sidan */
+    --container-bg: #1E1E1E;        /* Mörkare bakgrund för innehåll */
+    --header-footer-bg: #2A2A2A;    /* Mörk bakgrund för header ochfooter */
+    --text-color: #E0E0E0;           /* Ljusgrå text */
+    --link-color: #cfcfcf;           /* Ljusare länkar för mörkt läge */
+    --link-hover: #fff;               /* Hover-färg på länkar i mörkt läge */
+    --button-bg: #333;                /* Mörk bakgrund på dark mode button  */
+    --button-hover: #444;             /* Hover effekt på dark mode button */
+}
+
+/* Sidhuvudet logo, firmanamn och nav */
+header {
+    background-color: var(--header-footer-bg);
+    display: flex;            /* Flex för horisontell layout */
+    align-items: center;      /* Vertikal centrering */
+    gap: 20px;                /* Jämnt mellanrum mellan barn */
+    padding: 0px 55px;       /* Luft inuti headern */
+}
+
+header img {
+    cursor: pointer;
+    padding: 4px;
+}
+
+/* Flytta Dark Mode-knappen mer mot mitten/höger */
+.header-theme {
+    margin-left: 40px;        /* Skjuter knappen och allt efter den till höger */
+    margin-right: 40px;       /* Extra luft mellan knappen och nav */
+}
+
+
+/* NAVIGATION */
+.header-nav {
+    margin-left: 0;              /* Ta bort eventuell margin-left auto här */
+}
+
+.header-nav ul {
+    display: flex;               /* flex istället för float */
+    gap: 20px;                   /* avstånd mellan länkar */
+    list-style: none;            /* ta bort “bollar” */
+    margin: 0;
+    padding: 0;
+    align-items: center;         /* Vertikal centrering av länkar */
+    font-size: 18px;
+}
+
+.header-nav li {
+    padding: 10px 0;             /* vertikal luftighet */
+}
+
+.header-nav li > a {
+    text-decoration: none;
+    font-weight: 600;
+    color: var(--link-color);              /* matchar header-nav färg */
+    padding-bottom: 2px;         /* för hover-understrykning */
+    border-bottom: 2px solid transparent; /* för att hover-linjen inte hoppar */
+    transition: 0.2s ease;       /* mjuk övergång */
+}
+
+/* Hover-effekt på nav-länkar */
+.header-nav li > a:hover {
+    color: var(--link-hover);                  /* ljusare färg vid hover */
+    border-bottom: 2px solid #777; /* understrykning */
+}
+
+/* DARKMODE BUTTON */
+#themeToggle {
+    padding: 8px 12px;
+    border-radius: 8px;
+    border: none;
+    cursor: pointer;
+    background: var(--button-bg);
+    color: var(--text-color);
+    transition: 0.2s ease;
+}
+
+#themeToggle:hover {
+    background: var(--button-hover);
+}
+
+                        /*  INDEX */
+
+/* Allmängällande stilar */
+body {
+    background-color: var(--bg-color);
+    margin: 0;
+    font-family: "Helvetice Neue", Helvetica, sans-serif;
+}
+
+#container {
+    background-color: var(--container-bg);
+    color: var(--text-color);
+    max-width: 800px;
+    margin: auto;
+    min-height: 100vh;
+    padding-bottom: 100px;
+    text-align: center;
+}
+
+article {
+    margin-bottom: 30px;
+    padding-left: 10px;
+}
+
+                    /*  COOKIE */
+
+/* COOKIE BANNER */
+
+/* Banner hidden initially */
+#cookie-banner {
+    display: none;               /* Gömmer bannern först, JS kommer visa den om cookie inte finns */
+    position: fixed;             /* Gör att bannern ligger ovanpå allt annat innehåll */
+    top: 0;                      /* Startposition: högst upp på sidan */
+    left: 50%;                   /* Centrera horisontellt */
+    transform: translateX(-50%);
+    width: 90%;
+    max-width: 400px;
+    background-color: var(--header-footer-bg);      /* matcha dark/light mode */
+    color: var(--text-color);
+    padding: 20px;
+    text-align: center;
+    border-radius: 0 0 10px 10px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.3);     /* Liten skugga för att ge djup */
+    z-index: 9999;               /* Ser till att bannern alltid är överst */
+
+    /* Animation */
+    animation: slideDown 0.6s ease forwards;        /* När bannern visas, glider den ner från toppen */
+}
+
+/* Slide from top */
+@keyframes slideDown {
+    0% { top: -100px; opacity: 0; }         /* Börjar utanför skärmen med 0% synlighet */
+    100% { top: 50%; transform: translate(-50%, -50%); opacity: 1; }    /* Slutar i mitten med full synlighet */
+}
+
+#cookie-banner button {
+    margin: 10px 5px;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    background-color: var(--button-bg);
+    color: var(--text-color);
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+#cookie-banner button:hover {
+    background-color: var(--button-hover);
+}
+
+/* INDEX PAGE */
+.content-section {
+    display: flex;
+    gap: 40px;
+    align-items: flex-start;
+}
+
+.left-section {
+    flex: 3;
+    margin-left: 20px;
+}
+
+.view-profile-btn {
+    display: inline-block;
+    margin-top: 10px;
+    padding: 8px 14px;
+    background: var(--button-bg);
+    color: var(--text-color);
+    text-decoration: none;
+    border-radius: 5px;
+}
+
+.view-profile-btn:hover {
+    background: var(--button-hover);
+}
+
+/* RIGHT SIDE (sidebar) */
+.right-section {
+    flex: 1;
+    background-color: var(--header-footer-bg);
+    padding: 25px;
+    padding-bottom: 4px;
+    border-radius: 6px;
+    margin-top: 68px; /* pushes sidebar down */
+    margin-right: 20px;
+}
+
+.right-section h3 {
+    margin-top: 0;
+}
+
+#submit-btn {
+    padding: 8px 14px;
+    border: none;
+    background: var(--button-bg);
+    color: var(--text-color);
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+#submit-btn:hover {
+    background: var(--button-hover);
+}
+
+.post {
+    background-color: var(--header-footer-bg);
+    padding: 20px;
+    border-radius: 6px;
+    margin-bottom: 20px;
+}
+
+.info-box {
+    margin-bottom: 35px;
+    word-wrap: break-word;
+}
+
+/* Date calculator messages */
+
+.date-error {
+    color: #d93025; /* red */
+    font-weight: 600;
+}
+
+.date-success {
+    color: #1a8f3c; /* green */
+    font-weight: 600;
+}
+                    /*  SIGNUP FORM */
+/* SIGNUP FORM */
+.signup-form {
+    background-color: var(--header-footer-bg);
+    padding: 30px 60px 1px 35px; /* extra padding on the left for breathing space */
+    border-radius: 12px;           /* slightly rounder corners for a softer look */
+    max-width: 500px;
+    margin: 50px auto;
+    box-shadow: 0 6px 18px rgba(0,0,0,0.1); /* softer shadow */
+}
+
+/* Form layout */
+.signup-form form {
+    display: flex;
+    flex-direction: column;
+    gap: 18px; /* a bit more gap to make it airy */
+}
+
+/* Heading */
+.signup-form h2 {
+    text-align: center;
+    margin-bottom: 25px;
+    color: var(--text-color);
+    font-weight: 600;
+    letter-spacing: 0.5px;
+}
+
+/* Inputs and textarea */
+.signup-form input,
+.signup-form textarea {
+    width: 100%;
+    padding: 12px 15px;      /* more left padding for comfort */
+    border: 1px solid #ccc;  /* subtle border */
+    border-radius: 8px;      /* softer edges */
+    font-size: 16px;
+    background-color: var(--container-bg);
+    color: var(--text-color);
+    transition: all 0.2s ease;
+    font-family: inherit;
+}
+
+.signup-form input:focus,
+.signup-form textarea:focus {
+    outline: none;
+    border-color: var(--link-color);
+    box-shadow: 0 0 6px rgba(0,0,0,0.15);
+}
+
+/* Textarea */
+.signup-form textarea {
+    min-height: 100px; /* slightly taller for comfort */
+    resize: vertical;
+}
+
+/* Button */
+.signup-form button {
+    width: 100%;
+    padding: 14px;
+    border: none;
+    border-radius: 8px;
+    background-color: var(--button-bg);
+    color: var(--text-color);
+    font-size: 16px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-family: inherit;
+    text-transform: uppercase; /* subtle friendly touch */
+}
+
+.signup-form button:hover {
+    background-color: var(--button-hover);
+    transform: translateY(-2px);
+}
+
+/* Bottom text */
+.signup-form p {
+    text-align: center;
+    margin-top: 20px;
+    color: var(--text-color);
+    font-size: 16px;
+}
+
+.signup-form p a {
+    color: var(--link-color);
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.signup-form p a:hover {
+    color: var(--link-hover);
+}
+
+/* Mobile */
+@media (max-width: 480px) {
+    .signup-form {
+        padding: 20px 15px;
+        margin: 20px;
+    }
+}
+
+                    /*  PROFILE PAGE */
+.profile-top {
+    display: flex;
+    gap: 30px;
+    padding: 20px 40px; /* mer padding runt hela flex-containern */
+    justify-content: center; /* centrerar sektionerna horisontellt */
+}
+
+.profile-info,
+.comment-form-box {
+    background: var(--header-footer-bg);
+    padding: 25px 30px;    /* inre luft */
+    border-radius: 8px;
+    flex: 1;               /* lika breda sektioner */
+    box-sizing: border-box; /* padding räknas in i bredd */
+}
+
+.profile-info {
+    text-align: left;      /* vänsterjusterad text */
+}
+
+/* Se till att .profile-top inte blir för bred på stora skärmar */
+
+.comment-form-box form {
+    display: flex;
+    flex-direction: column;  /* Lägg textarea och knapp under varandra */
+    gap: 12px;               /* Lagom avstånd mellan textruta och knapp */
+    align-items: flex-start; /* Justera vänster (kan ändras till center om du vill) */
+}
+
+/* Gör knappen som .view-profile-btn */
+.comment-form-box form button {
+    all: unset; /* Reset alla standard-knappstilar */
+    display: inline-block;
+    padding: 8px 14px;
+    background: var(--button-bg);
+    color: var(--text-color);
+    text-decoration: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-family: inherit;
+    font-size: 1rem;
+    font-weight: 600;
+    text-align: center;
+    transition: background-color 0.3s ease;
+    min-width: 120px; /* så den inte blir för liten */
+}
+
+.comment-form-box form button:hover {
+    background: var(--button-hover);
+}
+
+.comments-box h3 {
+    margin-top: 0;
+    margin-bottom: 15px;
+    font-weight: 700;
+    font-size: 1.3rem;
+}
+
+.comments-box p {
+    font-size: 1rem;
+    color: var(--text-color);
+    opacity: 0.7;
+}
+
+                    /*  FOOTER */
+footer {
+    background-color: var(--header-footer-bg);
+    width: 100%;
+    max-width: 780px;
+    padding: 10px;
+    position: fixed;
+    bottom: 0;
+    left: 50%;                 /* Centrera horisontellt */
+    transform: translateX(-50%); /* Flytta bakåt halva bredden */
+    z-index: 1000;             /* Se till att footern är över andra element */
+}
+
+/* Flex container for all footer content */
+footer .footer-inner {
+    display: flex;                 /* Flex layout */
+    align-items: center;           /* Vertical centering */
+    justify-content: space-between;/* Spread left, center, right */
+    gap: 20px;                     /* Space between blocks */
+    max-width: 800px;
+    margin: 0 auto;
+    flex-wrap: nowrap;             /* Prevent stacking on small screens */
+}
+
+/* Left: Logo */
+footer .header-logo a img {
+    height: 60px;
+    cursor: pointer;
+    margin: 0;
+    padding-left: 30px;
+}
+
+
+
+/* Center text */
+footer .footer-center {
+    text-align: center;
+    flex-shrink: 0;  
+    padding-left: 150px;             /* Prevent shrinking */
+}
+
+/* Right: Links */
+footer .footer-links ul {
+    display: flex;
+    gap: 30px;
+    list-style: none;
+    margin: 0;
+    padding-right: 30px;
+    align-items: center;
+}
+
+footer .footer-links li a {
+    text-decoration: none;
+    font-weight: 600;
+    color: var(--link-color);
+    padding-bottom: 2px;
+    border-bottom: 2px solid transparent;
+    transition: color 0.2s ease, border-bottom 0.2s ease;
+}
+
+footer .footer-links li a:hover {
+    color: var(--link-hover);
+    border-bottom: 2px solid var(--link-hover);
+}
+
+
+/* Responsiv styling */
+@media (max-width: 640px) {
+    header {
+        display: block;
+        text-align: center;
+    }
+
+    nav li {
+        float: none;
+    }
+}
+
+
+/* Mobile (max-width: 640px) */
+
+@media (max-width: 640px) {
+
+    #cookie-banner {
+        padding: 12px 15px;
+        font-size: 14px;
+    }
+
+    #cookie-banner form {
+        flex-direction: column; /* Knappar under varandra */
+        gap: 10px;
+    }
+
+    #cookie-banner button {
+        width: 100%; /* Full bredd på mobilen */
+        padding: 10px;
+        font-size: 13px;
+    }
+}
+
+
+/* Desktop / Tablet (790px–1200px) */
+
+@media (min-width: 790px) and (max-width: 1200px) {
+
+    #cookie-banner {
+        padding: 18px 25px;
+        font-size: 15px;
+    }
+
+    #cookie-banner form {
+        gap: 12px;
+    }
+
+    #cookie-banner button {
+        padding: 11px 20px;
+        font-size: 14px;
+    }
+}
+
+/* Mobile adjustments */
+@media (max-width: 640px) {
+    footer .footer-inner {
+        flex-direction: column; /* Stack only on small screens */
+        gap: 15px;
+        text-align: center;
+    }
+
+    footer .footer-links ul {
+        flex-direction: column;
+        gap: 10px;
+    }
+}
+
+/* INDEX PAGE */
+@media (max-width: 900px) {
+
+.content-section {
+    flex-direction: column;
+}
+
+.right-section {
+    margin-top: 20px;
+}
+
+}

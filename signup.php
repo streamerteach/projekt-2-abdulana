@@ -8,7 +8,7 @@ session_start(); // start the session so you can track logged-in users
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login</title>
+    <title>Signup</title>
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/index.css">
     <script src="js/script.js" defer></script>
@@ -21,7 +21,7 @@ session_start(); // start the session so you can track logged-in users
 
         <section>
             <article>
-                <?php include "view/view_login.php" ?>
+                <?php include "view/view_signup.php" ?>
             </article>
         </section>
 

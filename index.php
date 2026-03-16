@@ -1,103 +1,134 @@
 <?php
-session_start();
+require_once "db.php";
 
-// Skickar användaren till login om den inte är inloggad
-if (!isset($_SESSION["username"])) {
-    header("Location: login.php");
-    exit;
+// Hämta de senaste 5 profilerna
+try {
+    $stmt = $pdo->prepare("SELECT * FROM users ORDER BY id DESC LIMIT 4");
+    $stmt->execute();
+
+    $profiles = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+} catch(PDOException $e) {
+    print "Error: " . $e->getMessage();
 }
-
-include "includes/functions.php";
-include "includes/header.php";
 ?>
 
-<!-- Cookie-banner -->
- <?php if (!isset($_COOKIE["cookie_consent"])): ?>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>echo</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/index.css">
+    <script src="js/script.js" defer></script>
+    <script src="js/cookie.js" defer></script>
+</head>
+<body>
+
+
+<!-- Cookie banner -->
 <div id="cookie-banner">
-    <p>We use cookies to improve your experience.</p>
+    <p>We use cookies to improve your experience</p>
     <button id="accept-all">Accept all</button>
-    <button id="necessary-only">Necessary only</button>
+    <button id="necessary-only">Only necessary</button>
 </div>
-<?php endif; ?>
-
-<?php
-
-// Kollar om användaren har varit här förut med ($_COOKIE)
-$first_visit = $_COOKIE["first_visit"] ?? date("Y-m-d H:i:s");
-
-if (!isset($_COOKIE["first_visit"])) {
-    // Om det är first visit så skapar den cookie och hälsar välkommen
-    setcookie("first_visit", date("Y-m-d H:i:s"), time() + (86400 * 365));  // 1år
-    print "Welcome to Echo! This is your first visit.";
-} else {
-    // Om cookie finns så visar det när personen har var här första gången
-    print "<p>Welcome back! You first visited Echo on: " . $_COOKIE["first_visit"] . "</p>";
-}
 
 
+<div id="container">
+    <?php include "header.php"?>
 
-// Räknar hur många unika användare som varit inne (baserat på username)
-// Alla unika besökare sparas i filen visits.txt
-$visits = count_visits();
-print "<p>Number of unique visitors: " . $visits . "</p>";
+    <!-- Filter section  (Sortering uppg 5) -->
+    <section class="filter-section">
+    </section>
+
+    
+    <div class="content-section">
+        <!-- LEFT SIDE -->
+        <section class="left-section">
+            <article>
+                <?php include "view/view_profiles.php" ?>
+            </article>
+        </section>
 
 
-// Visar serverinfo 
-print "<h3>Server Information</h3>";
-print "<p>PHP version: " . phpversion() . "</p>";
-print "<p>Server software: " . $_SERVER["SERVER_SOFTWARE"] . "</p>";
-?>
+            <!-- RIGHT SIDE -->
+            <aside class="right-section">
 
-<hr>
+                <section class="info-box">
+                <?php
+                if (isset($_SESSION['username'])) {
+                    // Check if this is the first visit in this session
+                    if (!isset($_SESSION['first_visit'])) {
+                        // First visit
+                        $_SESSION['first_visit'] = true;
+                        echo '<h3 class="greetings">Welcome ' . htmlspecialchars($_SESSION['username']) . '! This is your first visit.</h3>';
+                    } else {
+                        // Not the first visit
+                        echo '<h3 class="greetings">Welcome back, ' . htmlspecialchars($_SESSION['username']) . '</h3>';
+                    }
+                }
+                ?>
+                </section>
+                <hr>
+                <!-- Datumräknare -->
+                <section class="info-box date-box">
+                    <h3>Select a date</h3>
 
-<h2>Select a date:</h2>
+                    <form method="post" action="index.php">
+                        <input type="date" name="date"><br><br>
+                        <input id="submit-btn" type="submit" value="Calculate">
+                    </form>
 
-<form method="post" action="index.php">
-    <label>Enter your date (YYYY-MM-DD):</label><br>
-    <input type="date" name="date"><br><br>
-    <input type="submit" value="Calculate">
-</form>
+                    <?php
+                    $date = $_POST["date"] ?? "";
 
-<?php 
-// Räknar ut hur länge det är kvar
-$date = $_POST["date"] ?? "";
+                    if ($date != "") {
 
-if ($date != "") {
-    $date = str_replace(["<", ">"], "", $date);
+                        $date = str_replace(["<", ">"], "", $date);
 
-    $now = time();
-    $future = strtotime($date);
+                        $now = time();
+                        $future = strtotime($date);
 
-    if ($future > $now) {
-        $seconds_left = $future - $now;
-        $days = floor($seconds_left / 86400);
+                        if ($future > $now) {
 
-        print"<p>There are $days days left.</p>";
-        print "<script>var secondsLeft = $seconds_left;</script>";
-    } else {
-        print "<p>The date is in the past.</p>"; 
-    }
-}
+                            $seconds_left = $future - $now;
+                            print "<p class='date-success'>Countdown started!</p>";
+                            print "<script>var secondsLeft = $seconds_left;</script>";
+                        } else {
+                            print "<p class='date-error'>The selected date is in the past</p>";
+                        }
+                    }
+                    ?>
+                    <p id="countdown"></p>
+                </section>
+                <hr>
+                <section class="info-box visitors-box">
+                    <h3>Unique Visitors</h3>
+                    <?php 
+                    try {
+                        // Count all registered users
+                        $stmt = $pdo->prepare("SELECT COUNT(*) FROM users");
+                        $stmt->execute();
+                        $count = $stmt->fetchColumn();
 
-// Funktion för att skriva ut dagens datum i finskt format
-function formatFinnishDate() {
-    $days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
-    $months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+                        print htmlspecialchars($count);
+
+                    } catch (PDOException $e) {
+                        print "Error: " . $e->getMessage();
+                    }
+                    ?>
+                </section>
+                <hr>
+                <section class="info-box server-box">
+                    <h3>Server Info</h3>
+                    <p>PHP version: <?= phpversion(); ?></p>
+                    <p>Server: <?= $_SERVER['SERVER_SOFTWARE']; ?></p>
+                </section>
+
+            </aside>
+    <div>
+
    
-    $dayName = $days[date("w")];
-    $dayNum = date("j");
-    $monthName = $months[date("n") - 1];
-    return "$dayName $dayNum $monthName";
-}
-?>
-
-<!-- Här visas nedräkningen -->
-<div id="countdown"></div>
-
-<?php
-print "<p>Today is: <strong>" . formatFinnishDate() . "</strong></p>";
-?>
-
-<?php
-include "includes/footer.php";
-?>
+</div>
+ <?php include "footer.php" ?>
