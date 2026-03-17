@@ -1,15 +1,34 @@
 <?php
-session_start();
-require_once "db.php";
 
-// Get user id from URL
-$id = $_GET["id"] ?? "";
+    session_start();
+    require_once "db.php";
 
-// Fetch user from database
-$stmt = $pdo->prepare("SELECT * FROM users WHERE id = ?");
-$stmt->execute([$id]);
+    // Hämtar user id från URL (t.ex profile.php?id=5)
+    $id = $_GET["id"] ?? "";
 
-$user = $stmt->fetch();
+    // Hämtar användaren från databasen baserat på id
+    $stmt = $pdo->prepare("SELECT * FROM users WHERE id = ?");
+    $stmt->execute([$id]);
+    $user = $stmt->fetch();
+
+    if (! $user) {
+    die("Profile not found.");
+    }
+
+    // Hämtar alla kommentarer som denna användare har skrivit
+    try {
+    $stmt = $pdo->prepare("
+        SELECT c.*, u2.username AS profile_owner
+        FROM comments c
+        LEFT JOIN users u2 ON u2.id = c.profile_id
+        WHERE c.users_id = ?
+        ORDER BY c.created_at DESC
+    ");
+    $stmt->execute([$user['id']]);
+    $comments = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    } catch (PDOException $e) {
+    $comments = [];
+    }
 ?>
 
 <!DOCTYPE html>
@@ -30,7 +49,7 @@ $user = $stmt->fetch();
 
 <div id="container">
 
-<?php include "header.php" ?>
+<?php include "header.php"?>
 
 
 <div class="profile-content">
@@ -39,48 +58,81 @@ $user = $stmt->fetch();
 
 <div class="profile-top">
     <section class="profile-info">
-        <h2 class="profile-username"><?= htmlspecialchars($user["username"]) ?></h2>
-        <p><strong>Realname:</strong> <?= htmlspecialchars($user["realname"]) ?></p>
-        <p><strong>Zipcode:</strong> <?= htmlspecialchars($user["zipcode"]) ?></p>
-        <p><strong>Bio:</strong> <?= htmlspecialchars($user["bio"]) ?></p>
+         <!-- Visar användarens info -->
+        <h2 class="profile-username"><?php print htmlspecialchars($user["username"])?></h2>
+        <p><strong>Realname:</strong><?php print htmlspecialchars($user["realname"])?></p>
+        <p><strong>Zipcode:</strong><?php print htmlspecialchars($user["zipcode"])?></p>
+        <p><strong>Bio:</strong><?php print htmlspecialchars($user["bio"])?></p>
 
-        <?php if (isset($_SESSION["user_id"])) { ?>
-            <p><strong>Email:</strong> <?= htmlspecialchars($user["email"]) ?></p>
-            <p><strong>Salary:</strong> <?= htmlspecialchars($user["salary"]) ?></p>
-        <?php } ?>
+        <!-- Endast inloggade ser email + salary -->
+        <?php if (isset($_SESSION["user_id"])) {?>
+            <p><strong>Email:</strong> <?php print htmlspecialchars($user["email"])?></p>
+            <p><strong>Salary:</strong> <?php print htmlspecialchars($user["salary"])?></p>
+        <?php }?>
 
     </section>
 
-    <section class="comment-form-box">
+    <div class="comments-box">
+        <!-- Visar hur många kommentarer användaren skrivit -->
+        <h3>Comments made by <?php print htmlspecialchars($user["username"])?> (<?php print count($comments)?>)</h3>
 
-        <h3>Write a comment</h3>
+         <!-- Om det finns kommentarer -->
+        <?php if (! empty($comments)): ?>
+        <!-- Loopar igenom alla kommentarer -->
+        <?php foreach ($comments as $comment): ?>
 
-        <?php if (isset($_SESSION["user_id"])) { ?>
+        <?php
+            $liked = false; // default = inte likad
+            // Om man är inloggad → kolla om man redan har likat kommentaren
+            if (isset($_SESSION['user_id'])) {
+                $stmt = $pdo->prepare("
+                SELECT id FROM comment_likes
+                WHERE user_id = ? AND comment_id = ?
+            ");
+                $stmt->execute([$_SESSION['user_id'], $comment['id']]);
+                $liked = $stmt->fetch(); // true om den finns
+            }
+        ?>
 
-        <form method="post" action="add_comment.php">
+        <div class="post">
+        <!-- Visar vem som skrev kommentaren -->
+        <p><strong><?php print htmlspecialchars($comment['username'])?> wrote:</strong></p>
+        <!-- Själva kommentaren -->
+        <p><?php print htmlspecialchars($comment['comment_text'])?></p>
 
-            <textarea name="comment" placeholder="Write your comment..."></textarea>
-            <input type="hidden" name="profile_id" value="<?= $user["id"] ?>">
-            <button type="submit">Post Comment</button>
+        <!-- Visar likes + datum -->
+        <p>
+        Likes: <?php print htmlspecialchars($comment['likes'])?> |
+        Posted on: <?php print htmlspecialchars($comment['created_at'])?>
+        </p>
+
+        <!-- Endast inloggade kan like/unlike -->
+        <?php if (isset($_SESSION['user_id'])): ?>
+
+        <!-- Form som skickar comment_id till like_comment.php -->
+        <form method="post" action="like_comment.php">
+        <input type="hidden" name="comment_id" value="<?php print $comment['id']?>">
+
+         <!-- Byter text beroende på om man redan likat -->
+        <button type="submit">
+        <?php print($liked ? "👎 Undo Like" : "👍 Like"); ?>
+        </button>
 
         </form>
 
-        <?php } else { ?>
+        <?php endif; ?>
 
-        <p>You must log in to comment.</p>
+        </div>
 
-        <?php } ?>
+        <?php endforeach; ?>
+        <?php else: ?>
+        <!-- Om inga kommentarer finns -->
+        <p>No comments yet.</p>
 
-    </section>
+        <?php endif; ?>
 
-</div>
-
-<div class="comments-box">
-
-    <h3>Comments (0)</h3>
-
-    <p>No comments yet.</p>
+    </div>
 
 </div>
-<?php include "footer.php" ?>
+<?php include "footer.php"?>
 </div>

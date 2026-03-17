@@ -1,10 +1,5 @@
 <?php
-
-// Start the session
-
-// Allt möjligt viktigt som vi använder ofta, sessionshantering, form validation etc.
-
-// En funktion som tar bort whitespace, backslashes (escape char) och gör om < till html safe motsvarigheter
+// Funktion som tar bort whitespace och specialtecken
 function test_input($data) {
     $data = trim($data);
     $data = stripslashes($data);
@@ -12,21 +7,20 @@ function test_input($data) {
     return $data;
 }
 
-// Databaskonfiguration
-$servername = "localhost";
-include "hemlis.php";
+// Definiera databasinställningar
+$servername = "localhost";  
+$dbname = "abdulana";   
+// Hämtar användarnamn + lösenord från separat fil (säkerhet)
+include "hemlis.php";  
 
 try {
-    $pdo = new PDO($dsn, $dbusername, $dbpassword);
+    // Skapa en PDO-anslutning till databasen
+    $pdo = new PDO("mysql:host=$servername;dbname=$dbname", $dbusername, $dbpassword); // Använd $dbname direkt här
+    
+    // Sätter så att PDO visar errors som exceptions
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 } catch (PDOException $e) {
+    // Om något går fel -> visa felmeddelande
     print "Connection failed: " . $e->getMessage();
 }
-
-
-// Skapar en instans av PDO klassen som vi kallar $conn
-//$conn = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
-//$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-//print("Connected to database");
-// DENNIS SQL connection
 ?>

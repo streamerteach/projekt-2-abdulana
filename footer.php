@@ -3,19 +3,19 @@
 <footer>
     <div class="footer-inner">
 
-    <!-- Left: Logo -->
+    <!-- LOGO (klickbar → går till startsidan) -->
     <div class="header-logo">
         <a href="index.php">
-            <img src="/echo2/media/echo5.png" alt="Website logo" />
+            <img src="media/echo5.png" alt="Website logo" />
         </a>
     </div>
 
-        <!-- Middle: Made by -->
+         <!-- TEXT I MITTEN -->
         <div class="footer-center">
-            Made by A<sup>&#169;</sup>
+            Made by Anab & Aurora<sup>&#169;</sup>
         </div>
 
-        <!-- Right: Links -->
+        <!-- FOOTER LÄNKAR -->
         <div class="footer-links">
             <ul>
                 <li><a href="index.php">Home</a></li>

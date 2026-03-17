@@ -13,7 +13,6 @@
             
             <button type="submit">Signup</button>
         </form>
-        <p>Already have an account? <a href="/echo2/login.php"><strong>Login</strong></a> here</p>
+        <p>Already have an account? <a href="login.php"><strong>Login</strong></a> here</p>
 
-        </section>
     </section>

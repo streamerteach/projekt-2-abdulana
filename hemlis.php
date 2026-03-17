@@ -1,11 +1,4 @@
 <?php
-
-
-$dsn = "mysql:host=localhost;dbname=db";
-$dbusername = "root";
-$dbpassword = "";
-
-
-//$username = "root";
-//$password = "";
-//$dbname = "db";
+// Det här är din hemliga information som ska hållas säker
+$dbusername = "abdulana";  
+$dbpassword = "wFbqqdSVDe";  

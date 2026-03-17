@@ -1,5 +1,5 @@
                     /* LIGHT MODE & DARK MODE */
-/* Light mode variables */
+
 :root {
     --bg-color: #f2f2f2;             /* Bakgrund för hela sidan */
     --container-bg: #fff;            /* Bakgrund för huvud-innehåll */
@@ -22,13 +22,13 @@
     --button-hover: #444;             /* Hover effekt på dark mode button */
 }
 
-/* Sidhuvudet logo, firmanamn och nav */
+
 header {
     background-color: var(--header-footer-bg);
-    display: flex;            /* Flex för horisontell layout */
-    align-items: center;      /* Vertikal centrering */
-    gap: 20px;                /* Jämnt mellanrum mellan barn */
-    padding: 0px 55px;       /* Luft inuti headern */
+    display: flex;           
+    align-items: center;     
+    gap: 20px;                
+    padding: 0px 55px;       
 }
 
 header img {
@@ -36,45 +36,44 @@ header img {
     padding: 4px;
 }
 
-/* Flytta Dark Mode-knappen mer mot mitten/höger */
 .header-theme {
-    margin-left: 40px;        /* Skjuter knappen och allt efter den till höger */
-    margin-right: 40px;       /* Extra luft mellan knappen och nav */
+    margin-left: 40px;       
+    margin-right: 40px;      
 }
 
 
 /* NAVIGATION */
 .header-nav {
-    margin-left: 0;              /* Ta bort eventuell margin-left auto här */
+    margin-left: 0;              
 }
 
 .header-nav ul {
-    display: flex;               /* flex istället för float */
-    gap: 20px;                   /* avstånd mellan länkar */
-    list-style: none;            /* ta bort “bollar” */
+    display: flex;             
+    gap: 20px;                   
+    list-style: none;           
     margin: 0;
     padding: 0;
-    align-items: center;         /* Vertikal centrering av länkar */
+    align-items: center;        
     font-size: 18px;
 }
 
 .header-nav li {
-    padding: 10px 0;             /* vertikal luftighet */
+    padding: 10px 0;            
 }
 
 .header-nav li > a {
     text-decoration: none;
     font-weight: 600;
-    color: var(--link-color);              /* matchar header-nav färg */
-    padding-bottom: 2px;         /* för hover-understrykning */
-    border-bottom: 2px solid transparent; /* för att hover-linjen inte hoppar */
-    transition: 0.2s ease;       /* mjuk övergång */
+    color: var(--link-color);              
+    padding-bottom: 2px;         
+    border-bottom: 2px solid transparent; 
+    transition: 0.2s ease;      
 }
 
 /* Hover-effekt på nav-länkar */
 .header-nav li > a:hover {
-    color: var(--link-hover);                  /* ljusare färg vid hover */
-    border-bottom: 2px solid #777; /* understrykning */
+    color: var(--link-hover);                 
+    border-bottom: 2px solid #777; 
 }
 
 /* DARKMODE BUTTON */
@@ -116,35 +115,34 @@ article {
     padding-left: 10px;
 }
 
-                    /*  COOKIE */
 
 /* COOKIE BANNER */
 
 /* Banner hidden initially */
 #cookie-banner {
-    display: none;               /* Gömmer bannern först, JS kommer visa den om cookie inte finns */
-    position: fixed;             /* Gör att bannern ligger ovanpå allt annat innehåll */
-    top: 0;                      /* Startposition: högst upp på sidan */
-    left: 50%;                   /* Centrera horisontellt */
+    display: none;               
+    position: fixed;            
+    top: 0;                     
+    left: 50%;                   
     transform: translateX(-50%);
     width: 90%;
     max-width: 400px;
-    background-color: var(--header-footer-bg);      /* matcha dark/light mode */
+    background-color: var(--header-footer-bg);    
     color: var(--text-color);
     padding: 20px;
     text-align: center;
     border-radius: 0 0 10px 10px;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.3);     /* Liten skugga för att ge djup */
-    z-index: 9999;               /* Ser till att bannern alltid är överst */
+    box-shadow: 0 4px 15px rgba(0,0,0,0.3);    
+    z-index: 9999;               
 
     /* Animation */
-    animation: slideDown 0.6s ease forwards;        /* När bannern visas, glider den ner från toppen */
+    animation: slideDown 0.6s ease forwards;        
 }
 
 /* Slide from top */
 @keyframes slideDown {
-    0% { top: -100px; opacity: 0; }         /* Börjar utanför skärmen med 0% synlighet */
-    100% { top: 50%; transform: translate(-50%, -50%); opacity: 1; }    /* Slutar i mitten med full synlighet */
+    0% { top: -100px; opacity: 0; }        
+    100% { top: 50%; transform: translate(-50%, -50%); opacity: 1; }    
 }
 
 #cookie-banner button {
@@ -195,7 +193,7 @@ article {
     padding: 25px;
     padding-bottom: 4px;
     border-radius: 6px;
-    margin-top: 68px; /* pushes sidebar down */
+    margin-top: 68px; 
     margin-right: 20px;
 }
 
@@ -229,32 +227,33 @@ article {
 }
 
 /* Date calculator messages */
-
 .date-error {
-    color: #d93025; /* red */
+    color: #d93025; 
     font-weight: 600;
 }
 
 .date-success {
-    color: #1a8f3c; /* green */
+    color: #1a8f3c; 
     font-weight: 600;
 }
+
+
                     /*  SIGNUP FORM */
 /* SIGNUP FORM */
 .signup-form {
     background-color: var(--header-footer-bg);
-    padding: 30px 60px 1px 35px; /* extra padding on the left for breathing space */
-    border-radius: 12px;           /* slightly rounder corners for a softer look */
+    padding: 30px 60px 1px 35px; 
+    border-radius: 12px;           
     max-width: 500px;
     margin: 50px auto;
-    box-shadow: 0 6px 18px rgba(0,0,0,0.1); /* softer shadow */
+    box-shadow: 0 6px 18px rgba(0,0,0,0.1); 
 }
 
 /* Form layout */
 .signup-form form {
     display: flex;
     flex-direction: column;
-    gap: 18px; /* a bit more gap to make it airy */
+    gap: 18px; 
 }
 
 /* Heading */
@@ -270,9 +269,9 @@ article {
 .signup-form input,
 .signup-form textarea {
     width: 100%;
-    padding: 12px 15px;      /* more left padding for comfort */
-    border: 1px solid #ccc;  /* subtle border */
-    border-radius: 8px;      /* softer edges */
+    padding: 12px 15px;      
+    border: 1px solid #ccc; 
+    border-radius: 8px;      
     font-size: 16px;
     background-color: var(--container-bg);
     color: var(--text-color);
@@ -289,7 +288,7 @@ article {
 
 /* Textarea */
 .signup-form textarea {
-    min-height: 100px; /* slightly taller for comfort */
+    min-height: 100px; 
     resize: vertical;
 }
 
@@ -305,7 +304,7 @@ article {
     cursor: pointer;
     transition: all 0.2s ease;
     font-family: inherit;
-    text-transform: uppercase; /* subtle friendly touch */
+    text-transform: uppercase; 
 }
 
 .signup-form button:hover {
@@ -343,66 +342,26 @@ article {
 .profile-top {
     display: flex;
     gap: 30px;
-    padding: 20px 40px; /* mer padding runt hela flex-containern */
-    justify-content: center; /* centrerar sektionerna horisontellt */
+    padding: 20px 40px;
+    justify-content: center;
+    align-items: flex-start;  
 }
+
 
 .profile-info,
 .comment-form-box {
     background: var(--header-footer-bg);
-    padding: 25px 30px;    /* inre luft */
+    padding: 25px 30px;   
     border-radius: 8px;
-    flex: 1;               /* lika breda sektioner */
-    box-sizing: border-box; /* padding räknas in i bredd */
+    flex: 1;               
+    box-sizing: border-box; 
 }
 
 .profile-info {
-    text-align: left;      /* vänsterjusterad text */
+    text-align: left;     
 }
 
-/* Se till att .profile-top inte blir för bred på stora skärmar */
 
-.comment-form-box form {
-    display: flex;
-    flex-direction: column;  /* Lägg textarea och knapp under varandra */
-    gap: 12px;               /* Lagom avstånd mellan textruta och knapp */
-    align-items: flex-start; /* Justera vänster (kan ändras till center om du vill) */
-}
-
-/* Gör knappen som .view-profile-btn */
-.comment-form-box form button {
-    all: unset; /* Reset alla standard-knappstilar */
-    display: inline-block;
-    padding: 8px 14px;
-    background: var(--button-bg);
-    color: var(--text-color);
-    text-decoration: none;
-    border-radius: 5px;
-    cursor: pointer;
-    font-family: inherit;
-    font-size: 1rem;
-    font-weight: 600;
-    text-align: center;
-    transition: background-color 0.3s ease;
-    min-width: 120px; /* så den inte blir för liten */
-}
-
-.comment-form-box form button:hover {
-    background: var(--button-hover);
-}
-
-.comments-box h3 {
-    margin-top: 0;
-    margin-bottom: 15px;
-    font-weight: 700;
-    font-size: 1.3rem;
-}
-
-.comments-box p {
-    font-size: 1rem;
-    color: var(--text-color);
-    opacity: 0.7;
-}
 
                     /*  FOOTER */
 footer {
@@ -412,20 +371,19 @@ footer {
     padding: 10px;
     position: fixed;
     bottom: 0;
-    left: 50%;                 /* Centrera horisontellt */
-    transform: translateX(-50%); /* Flytta bakåt halva bredden */
-    z-index: 1000;             /* Se till att footern är över andra element */
+    left: 50%;                
+    transform: translateX(-50%); 
+    z-index: 1000;            
 }
 
-/* Flex container for all footer content */
 footer .footer-inner {
-    display: flex;                 /* Flex layout */
-    align-items: center;           /* Vertical centering */
-    justify-content: space-between;/* Spread left, center, right */
-    gap: 20px;                     /* Space between blocks */
+    display: flex;                 
+    align-items: center;           
+    justify-content: space-between;
+    gap: 20px;                    
     max-width: 800px;
     margin: 0 auto;
-    flex-wrap: nowrap;             /* Prevent stacking on small screens */
+    flex-wrap: nowrap;            
 }
 
 /* Left: Logo */
@@ -442,7 +400,7 @@ footer .header-logo a img {
 footer .footer-center {
     text-align: center;
     flex-shrink: 0;  
-    padding-left: 150px;             /* Prevent shrinking */
+    padding-left: 150px;            
 }
 
 /* Right: Links */
@@ -493,7 +451,7 @@ footer .footer-links li a:hover {
     }
 
     #cookie-banner form {
-        flex-direction: column; /* Knappar under varandra */
+        flex-direction: column; 
         gap: 10px;
     }
 
@@ -527,7 +485,7 @@ footer .footer-links li a:hover {
 /* Mobile adjustments */
 @media (max-width: 640px) {
     footer .footer-inner {
-        flex-direction: column; /* Stack only on small screens */
+        flex-direction: column; 
         gap: 15px;
         text-align: center;
     }

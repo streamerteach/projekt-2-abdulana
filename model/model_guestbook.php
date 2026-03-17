@@ -1,75 +1,73 @@
 <?php
 session_start();
-require_once "../db.php";
+require_once "../db.php"; // Anslutning till databasen
 
-// Kontrollera om användaren är inloggad
-if (!isset($_SESSION['username'])) {
-    $_SESSION['error'] = "You must be logged in to comment.";  // Felmeddelande om användaren inte är inloggad
-    header('Location: ../guestbook.php');  // Omdirigera tillbaka till guestbook-sidan
+// Kontrollera inloggning 
+if (!isset($_SESSION['username']) || !isset($_SESSION['user_id'])) {
+
+    // Om inte inloggad → sätt error och skicka tillbaka
+    $_SESSION['error'] = "You must be logged in to comment.";
+    header('Location: ../guestbook.php');
     exit();
 }
 
-// Hantera kommentarinlämning
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    // Kontrollera om användaren är inloggad
-    if (isset($_SESSION['username'])) {
-        $username = $_SESSION['username'];  // Användarens namn från session
-        $comment_text = trim($_POST['comment_text']);
+// Hantera POST (SKAPA KOMMENTAR)
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+     // Hämtar info från session + formulär
+    $username = $_SESSION['username'];
+    $users_id = $_SESSION['user_id'];
+    $comment_text = trim($_POST['comment_text']);
 
-        // Validera att kommentaren inte är tom
-        if (empty($comment_text)) {
-            $_SESSION['error'] = "Comment cannot be empty.";
-            header("Location: ../guestbook.php");
-            exit();
-        }
-
-        try {
-            // Sätt in kommentar i databasen
-            $stmt = $pdo->prepare("INSERT INTO comments (username, comment_text, likes) VALUES (:username, :comment_text, 0)");
-            $stmt->bindParam(':username', $username);
-            $stmt->bindParam(':comment_text', $comment_text);
-            $stmt->execute();
-
-            // Om inlämningen lyckas, omdirigera till guestbook-sidan
-            header("Location: ../guestbook.php");  // Se till att sidan laddas om
-            exit();
-        } catch (PDOException $e) {
-            $_SESSION['error'] = "An error occurred while posting your comment.";
-            header("Location: ../guestbook.php");
-            exit();
-        }
-    } else {
-        // Felmeddelande om användaren inte är inloggad
-        $_SESSION['error'] = "You must be logged in to comment.";
-        header('Location: ../guestbook.php');
+    // Kollar att kommentaren inte är tom
+    if ($comment_text === '') {
+        $_SESSION['error'] = "Comment cannot be empty.";
+        header("Location: ../guestbook.php");
         exit();
+    }
+
+    try {
+         // INSERT NY KOMMENTAR
+        $sql = "INSERT INTO comments (profile_id, username, comment_text, users_id, likes)
+                VALUES (NULL, :username, :comment_text, :users_id, 0)";
+
+        // Binder värden
+        $stmt = $pdo->prepare($sql);
+        $stmt->bindParam(':username', $username);
+        $stmt->bindParam(':comment_text', $comment_text);
+        $stmt->bindParam(':users_id', $users_id, PDO::PARAM_INT);
+
+        // Kör queryn
+        $stmt->execute();
+
+        // Tillbaka till guestbook efter lyckad kommentar
+        header("Location: ../guestbook.php");
+        exit();
+
+    } catch (PDOException $e) {
+        // Om något går fel i databasen
+        die("Database error: " . $e->getMessage());
     }
 }
 
-// Hämta sorteringsval
+// SORTERING
 $sort = $_GET['sort'] ?? 'newest';
-switch ($sort) {
-    case 'oldest':
-        $order_by = "created_at ASC";
-        break;
-    case 'most_likes':
-        $order_by = "likes DESC";
-        break;
-    case 'least_likes':
-        $order_by = "likes ASC";
-        break;
-    case 'newest':
-    default:
-        $order_by = "created_at DESC";
-        break;
-}
+// Bestämmer ordning beroende på val
+$order_by = match($sort) {
+    'oldest' => 'created_at ASC',
+    'most_likes' => 'likes DESC',
+    'least_likes' => 'likes ASC',
+    default => 'created_at DESC'
+};
 
+// HÄMTA KOMMENTARER 
 try {
-    // Hämta kommentarer med max 6, baserat på sortering
-    $stmt = $pdo->prepare("SELECT * FROM comments ORDER BY $order_by LIMIT 6");
-    $stmt->execute();
+    // Hämtar endast guestbook kommentarer (profile_id = NULL)
+    $sql = "SELECT * FROM comments WHERE profile_id IS NULL ORDER BY $order_by LIMIT 6";
+    // Kör query
+    $stmt = $pdo->query($sql);
+    // Sparar alla kommentarer
     $posts = $stmt->fetchAll(PDO::FETCH_ASSOC);
 } catch (PDOException $e) {
-    print "Error: " . $e->getMessage();
+    die("Database fetch error: " . $e->getMessage());
 }
 ?>

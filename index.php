@@ -1,11 +1,12 @@
 <?php
-require_once "db.php";
+require_once "db.php";  
 
-// Hämta de senaste 5 profilerna
+// Hämtar de senaste 4 användarna från databasen
 try {
     $stmt = $pdo->prepare("SELECT * FROM users ORDER BY id DESC LIMIT 4");
     $stmt->execute();
 
+     // Sparar alla profiler i en array
     $profiles = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 } catch(PDOException $e) {
@@ -38,11 +39,6 @@ try {
 <div id="container">
     <?php include "header.php"?>
 
-    <!-- Filter section  (Sortering uppg 5) -->
-    <section class="filter-section">
-    </section>
-
-    
     <div class="content-section">
         <!-- LEFT SIDE -->
         <section class="left-section">
@@ -51,84 +47,97 @@ try {
             </article>
         </section>
 
+        <!-- RIGHT SIDE -->
+        <aside class="right-section">
+            <!-- Välkomstmeddelande + cookie -->
+            <section class="info-box">
+            <?php
+            if (isset($_SESSION['username'])) {
+                $username = htmlspecialchars($_SESSION['username']);
+                
+                if (isset($_COOKIE['last_visit'])) {
+                    // Om användaren varit inne tidigare
+                    $lastVisit = date("Y-m-d", $_COOKIE['last_visit']);
+                    print "<h3 class='greetings'>Welcome back, $username! Last time you were here: $lastVisit</h3>";
+                } else {
+                    // Första gången användaren är inne
+                    print "<h3 class='greetings'>Welcome $username! This is your first visit.</h3>";
+                }
+                // Sparar senaste besök i en cookie (30 dagar)
+                setcookie("last_visit", time(), time() + (86400 * 30));
+            }
+            ?>
+            </section>
 
-            <!-- RIGHT SIDE -->
-            <aside class="right-section">
+            <hr>
+            <!-- Datumräknare -->
+            <section class="info-box date-box">
+                <h3>Select a date</h3>
 
-                <section class="info-box">
+                <!-- Form där användaren väljer datum -->
+                <form method="post" action="index.php">
+                    <input type="date" name="date"><br><br>
+                    <input id="submit-btn" type="submit" value="Calculate">
+                </form>
+
                 <?php
-                if (isset($_SESSION['username'])) {
-                    // Check if this is the first visit in this session
-                    if (!isset($_SESSION['first_visit'])) {
-                        // First visit
-                        $_SESSION['first_visit'] = true;
-                        echo '<h3 class="greetings">Welcome ' . htmlspecialchars($_SESSION['username']) . '! This is your first visit.</h3>';
+                // Hämtar datum från form
+                $date = $_POST["date"] ?? "";
+
+                if ($date != "") {
+
+                    $date = str_replace(["<", ">"], "", $date);
+
+                    $now = time();
+                    $future = strtotime($date);
+
+                    if ($future > $now) {
+
+                        $seconds_left = $future - $now;
+                        print "<p class='date-success'>Countdown started!</p>";
+                        // Skickar till JS så countdown
+                        print "<script>var secondsLeft = $seconds_left;</script>";
                     } else {
-                        // Not the first visit
-                        echo '<h3 class="greetings">Welcome back, ' . htmlspecialchars($_SESSION['username']) . '</h3>';
+                        // Om datumet har passerat
+                        print "<p class='date-error'>The selected date is in the past</p>";
                     }
                 }
                 ?>
-                </section>
-                <hr>
-                <!-- Datumräknare -->
-                <section class="info-box date-box">
-                    <h3>Select a date</h3>
+                <!-- Här visas countdown via JS -->
+                <p id="countdown"></p>
+            </section>
 
-                    <form method="post" action="index.php">
-                        <input type="date" name="date"><br><br>
-                        <input id="submit-btn" type="submit" value="Calculate">
-                    </form>
+            <hr>
 
-                    <?php
-                    $date = $_POST["date"] ?? "";
+            <!-- ANTAL ANVÄNDARE -->
+            <section class="info-box visitors-box">
+                <h3>Unique Visitors</h3>
+                <?php 
+                try {
+                    // Räknar hur många users finns i databasen
+                    $stmt = $pdo->prepare("SELECT COUNT(*) FROM users");
+                    $stmt->execute();
+                    $count = $stmt->fetchColumn();
 
-                    if ($date != "") {
+                    print htmlspecialchars($count);
 
-                        $date = str_replace(["<", ">"], "", $date);
+                } catch (PDOException $e) {
+                    print "Error: " . $e->getMessage();
+                }
+                ?>
+            </section>
 
-                        $now = time();
-                        $future = strtotime($date);
+            <hr>
 
-                        if ($future > $now) {
+            <!-- SERVER INFO -->
+            <section class="info-box server-box">
+                <h3>Server Info</h3>
+                <p>PHP version: <?php print phpversion(); ?></p>
+                <p>Server: <?php print $_SERVER['SERVER_SOFTWARE']; ?></p>
 
-                            $seconds_left = $future - $now;
-                            print "<p class='date-success'>Countdown started!</p>";
-                            print "<script>var secondsLeft = $seconds_left;</script>";
-                        } else {
-                            print "<p class='date-error'>The selected date is in the past</p>";
-                        }
-                    }
-                    ?>
-                    <p id="countdown"></p>
-                </section>
-                <hr>
-                <section class="info-box visitors-box">
-                    <h3>Unique Visitors</h3>
-                    <?php 
-                    try {
-                        // Count all registered users
-                        $stmt = $pdo->prepare("SELECT COUNT(*) FROM users");
-                        $stmt->execute();
-                        $count = $stmt->fetchColumn();
+            </section>
+        </aside>
+<div>
 
-                        print htmlspecialchars($count);
-
-                    } catch (PDOException $e) {
-                        print "Error: " . $e->getMessage();
-                    }
-                    ?>
-                </section>
-                <hr>
-                <section class="info-box server-box">
-                    <h3>Server Info</h3>
-                    <p>PHP version: <?= phpversion(); ?></p>
-                    <p>Server: <?= $_SERVER['SERVER_SOFTWARE']; ?></p>
-                </section>
-
-            </aside>
-    <div>
-
-   
 </div>
- <?php include "footer.php" ?>
+<?php include "footer.php" ?>

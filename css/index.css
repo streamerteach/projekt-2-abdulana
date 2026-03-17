@@ -2,7 +2,7 @@
 .header-user {
     display: flex;
     align-items: center;
-    gap: 10px; /* space between bubbles */
+    gap: 10px; 
 }
 
 .header-user:hover {
@@ -10,12 +10,13 @@
     border-radius: 30px;
     padding: 5px 9px 5px 9px;
 }
+
 /* Profile picture bubble */
 .profile-bubble {
-    width: 46px;          /* bubble size */
+    width: 46px;      
     height: 46px;
-    border-radius: 50%;   /* circular */
-    overflow: hidden;     /* ensures image stays inside circle */
+    border-radius: 50%;  
+    overflow: hidden;     
     display: flex;
     justify-content: center;
     align-items: center;
@@ -27,9 +28,9 @@
 .profile-bubble img {
     width: 100%;
     height: 100%;
-    object-fit: cover;   /* fills bubble completely, preserves aspect ratio */
-    object-position: center; /* centers image inside bubble */
-    display: block;      /* removes bottom spacing */
+    object-fit: cover;   
+    object-position: center; 
+    display: block;     
 }
 
 
@@ -50,7 +51,7 @@
 
 /* Sidebar greetings */
 .greetings {
-    color: var(--text-color); /* automatically black in light mode, light gray in dark mode */
+    color: var(--text-color); 
     font-weight: 600;
     margin-bottom: 10px;
     font-size: 1.2rem;
@@ -64,10 +65,7 @@
 }
 
 
-                        /* ========================= */
 /* GUESTBOOK PAGE */
-/* ========================= */
-
 .guestbook-comment-form {
     background: var(--header-footer-bg);
     max-width: 520px;
@@ -88,17 +86,19 @@
     border-radius: 6px;
     border: 1px solid #ccc;
     font-family: inherit;
+    margin-bottom: 15px;
 }
 
 /* button */
 .guestbook-comment-form input[type="submit"] {
-    margin-top: 10px;
     padding: 8px 16px;
-    border: none;
-    background: var(--button-bg);
+    background-color: var(--button-bg); 
     color: var(--text-color);
-    border-radius: 6px;
+    border: none;
+    border-radius: 5px;
     cursor: pointer;
+    font-size: 1rem;
+    transition: background-color 0.3s;
 }
 
 .guestbook-comment-form input[type="submit"]:hover {
@@ -106,7 +106,6 @@
 }
 
 /* COMMENT POSTS */
-
 .guestbook-posts {
     max-width: 600px;
     margin: 40px auto 120px auto;
@@ -139,4 +138,263 @@
 .guestbook-posts .post p:last-child {
     font-size: 13px;
     opacity: 0.7;
+}
+
+/* Ge lite avstånd från header och resten av sidan */
+.sort-bar {
+    margin: 30px 0; 
+    text-align: center; 
+}
+
+/* Form styling */
+.sortering {
+    display: inline-flex; 
+    align-items: center;
+    gap: 10px;
+    font-size: 1.1rem; 
+}
+
+.sortering select {
+    padding: 8px 12px;
+    font-size: 1rem;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    outline: none;
+}
+
+.sortering input[type="submit"] {
+    padding: 8px 16px;
+    background-color: var(--button-bg); 
+    color: var(--text-color);
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: background-color 0.3s;
+}
+
+.sortering input[type="submit"]:hover {
+    background-color: var(--button-hover); 
+}
+
+.guestbook-posts .post button {
+    padding: 8px 16px;
+    background-color: var(--button-bg);
+    color: var(--text-color);
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: background-color 0.3s;
+}
+
+.guestbook-posts .post button:hover {
+    background-color: var(--button-hover);
+}
+
+.post p {
+    color: var(--text-color);
+}
+
+.post button {
+    padding: 8px 14px;
+    background: var(--button-bg);
+    color: var(--text-color);
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-family: inherit;
+    font-size: 1rem;
+    transition: background-color 0.3s ease;
+}
+
+.post button:hover {
+    background: var(--button-hover);
+}
+
+.previous-pics img {
+    border-radius: 50%;
+    object-fit: cover;
+    width: 120px;
+    height: 120px;
+}
+
+.success {
+    color: green;
+    font-weight: bold;
+}
+
+.error {
+    color: red;
+    font-weight: bold;
+}
+
+
+/* TOP SECTION */
+.profile-top {
+    display: flex;
+    gap: 30px;
+    margin-bottom: 30px;
+}
+
+.profile-info,
+.profile-upload {
+    flex: 1;
+    background: var(--header-footer-bg);
+    padding: 25px;
+    border-radius: 10px;
+}
+
+
+/* PREVIOUS PICTURES */
+.profile-pictures {
+    margin-bottom: 30px;
+}
+
+.previous-pics {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-left: 30px;
+}
+
+.previous-pics img {
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+
+/* ACTION BOXES */
+.profile-actions {
+    display: flex;
+    gap: 20px;
+}
+
+.profile-change-acc,
+.profile-delete-acc {
+    flex: 1;
+    background: var(--header-footer-bg);
+    padding: 25px;
+    border-radius: 10px;
+    margin: 20px;
+}
+
+
+/* BUTTONS */
+.profile-actions button {
+    margin-top: 10px;
+    padding: 8px 16px;
+    background: var(--button-bg);
+    color: var(--text-color);
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.profile-actions button:hover {
+    background: var(--button-hover);
+}
+
+
+/* PROFILE ACTIONS */
+.profile-actions {
+    display: flex;
+    gap: 30px;
+    margin-top: 30px;
+}
+
+.profile-change-acc {
+    flex: 2;  
+    background: var(--header-footer-bg);
+    padding: 25px;
+    border-radius: 10px;
+    margin: 20px;
+}
+
+.profile-delete-acc {
+    flex: 0 0 220px;  
+    background: var(--header-footer-bg);
+    padding: 25px;
+    border-radius: 10px;
+    margin: 20px;
+    align-self: flex-start;
+}
+
+
+.profile-actions h3 {
+    margin-bottom: 15px;
+}
+
+.change-form,
+.delete-form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.change-form input,
+.change-form textarea,
+.delete-form input {
+    padding: 10px;
+    border-radius: 6px;
+    border: 1px solid var(--button-hover);
+    background: var(--container-bg);
+    color: var(--text-color);
+}
+
+.change-form textarea {
+    min-height: 80px;
+    resize: vertical;
+}
+
+.change-form button,
+.delete-form button {
+    margin-top: 10px;
+    padding: 10px;
+    border: none;
+    border-radius: 6px;
+    background: var(--button-bg);
+    color: var(--text-color);
+    cursor: pointer;
+}
+
+.change-form button:hover,
+.delete-form button:hover {
+    background: var(--button-hover);
+}
+
+.report-section {
+  background: var(--header-footer-bg);
+  padding: 20px;
+  margin-bottom: 20px;
+  border-radius: 10px;
+  text-align: left;
+}
+
+.report-section h2,
+.report-section h3,
+.report-section p {
+  text-align: left;
+}
+
+.db-container {
+  display: flex;
+  gap: 20px;
+  align-items: flex-start;
+}
+
+.db-image img {
+  max-width: 300px;
+  border-radius: 10px;
+}
+
+.db-text {
+  flex: 1;
+}
+.img-source {
+  font-size: 0.9rem;
+  color: var(--text-color);
+  margin-top: 5px;
 }

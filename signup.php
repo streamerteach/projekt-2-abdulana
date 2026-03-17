@@ -1,6 +1,5 @@
 <?php
-// signup.php
-session_start(); // start the session so you can track logged-in users
+session_start(); 
 ?>
 
 <!DOCTYPE html>
